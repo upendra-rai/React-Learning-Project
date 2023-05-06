@@ -4,21 +4,19 @@ export default function TextForm(props) {
   const handleUpClick = () => {
     let newText = text.toUpperCase();
     setText(newText);
-    props.showAlert(" Converted to UpperCase!","success");
+    props.showAlert(" Converted to UpperCase!", "success");
   };
 
   const handleLoClick = () => {
     let newText = text.toLowerCase();
     setText(newText);
-    props.showAlert(" Converted to LowerCase!","success");
-
+    props.showAlert(" Converted to LowerCase!", "success");
   };
 
   const handleClearClick = () => {
     let newText = "";
     setText(newText);
-    props.showAlert(" Text Cleared!","success");
-
+    props.showAlert(" Text Cleared!", "success");
   };
 
   const handleCopyClick = () => {
@@ -26,19 +24,23 @@ export default function TextForm(props) {
     texts.select();
     texts.setSelectionRange(0, 9999);
     navigator.clipboard.writeText(texts.value);
-    props.showAlert(" Text Copied!","success");
-
+    props.showAlert(" Text Copied!", "success");
   };
 
   const handleExtraSpacesClick = () => {
     let newText = text.split(/[ ]+/);
     setText(newText.join(" "));
-    props.showAlert(" Extra Spaces Removed!","success");
+    props.showAlert(" Extra Spaces Removed!", "success");
+  };
+
+  const handleExtraEmailClick = () => {   
+   const t= text.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/gi);
+    setText(t.join(" "));
+    props.showAlert(" Extracted All Email!", "success");
   };
 
   const handleOnChange = (event) => {
     setText(event.target.value);
-   
   };
 
   const [text, setText] = useState("");
@@ -53,7 +55,12 @@ export default function TextForm(props) {
           <div className="container my-3">
             <h5>Your Text Summery</h5>
             <p>
-              {text.split(" ").filter((element)=>{return element.length!==0}).length} words and {text.length} characters
+              {
+                text.split(" ").filter((element) => {
+                  return element.length !== 0;
+                }).length
+              }{" "}
+              words and {text.length} characters
             </p>
           </div>
           <textarea
@@ -62,7 +69,7 @@ export default function TextForm(props) {
             onChange={handleOnChange}
             style={{
               backgroundColor: props.mode === "dark" ? "#042743" : "white",
-              color: props.mode === "dark" ? "white" : "#042743"
+              color: props.mode === "dark" ? "white" : "#042743",
             }}
             id="textBox"
             rows="8"
@@ -74,7 +81,10 @@ export default function TextForm(props) {
         <button className="btn btn-primary mx-2 my-1" onClick={handleLoClick}>
           Convert To LowerCase
         </button>
-        <button className="btn btn-primary mx-2 my-1" onClick={handleClearClick}>
+        <button
+          className="btn btn-primary mx-2 my-1"
+          onClick={handleClearClick}
+        >
           Clear Text
         </button>
         <button className="btn btn-primary mx-2 my-1" onClick={handleCopyClick}>
@@ -86,16 +96,28 @@ export default function TextForm(props) {
         >
           Remove Extra Spaces
         </button>
+        <button
+          className="btn btn-primary mx-2"
+          onClick={handleExtraEmailClick}
+        >
+           Extract  Emails
+        </button>
       </div>
       <div
         className="container my-3"
         style={{ color: props.mode === "dark" ? "white" : "#042743" }}
       >
         <p>
-          <b>{0.008 * text.split(" ").filter((element)=>{return element.length!==0}).length} Minutes to read</b>
+          <b>
+            {0.008 *
+              text.split(" ").filter((element) => {
+                return element.length !== 0;
+              }).length}{" "}
+            Minutes to read
+          </b>
         </p>
         <h2>Preview</h2>
-      <p>{text.length>0?text:"Enter Something it to Preview"}</p>  
+        <p>{text.length > 0 ? text : "Enter Something it to Preview"}</p>
       </div>
     </>
   );
