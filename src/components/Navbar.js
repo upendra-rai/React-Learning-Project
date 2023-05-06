@@ -40,7 +40,7 @@ export default function Navbar(props) {
               Enable Dark Mode
             </label>
           </div>
-        </div >
+        </div>
         <div className={`form-check form-switch text-${
               props.mode === "light" ? "dark" : "light"
             }`}>
